@@ -1,0 +1,47 @@
+version: '3.8'  # Specify a version for best practices
+
+services:
+  app:
+    build: .
+    networks:
+      - shiggy_default
+    ports:
+      - "5000:5000"  # Exposing the app on port 3002 (host) to 3002 (container)
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/cputrades
+      - REDIS_HOST=redis
+      - PORT=4000  # Change to 3002
+    deploy:
+      resources:
+        limits:
+          memory: 4G  # Set a memory limit for the app
+    depends_on:
+      - mongo
+      - redis  # Ensure Redis is started before the app
+    volumes:
+      - .:/app  # Mount your app code for live updates (optional)
+    command: ["npm", "start"]  # Ensure your app starts correctly
+
+  mongo:
+    image: mongo:4.4
+    networks:
+      - shiggy_default
+    ports:
+      - "27017:27017"  # Exposing MongoDB port
+    volumes:
+      - mongo_data:/data/db  # Persist MongoDB data
+
+  redis:
+    image: redis:alpine  # Use the Alpine version for smaller size
+    networks:
+      - shiggy_default
+    ports:
+      - "6380:6379"  # Exposing Redis port
+    command: ["redis-server", "--appendonly", "yes"]  # Persist Redis data
+
+volumes:
+  mongo_data:  # Declare a volume for MongoDB
+
+networks:
+  shiggy_default:  # Define the default network
+

@@ -4,11 +4,13 @@
   "description": "Shiggy cpu trades",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Miracle Nnaoma",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "currency-converter-lt": "^2.0.1",

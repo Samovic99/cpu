@@ -9,7 +9,9 @@ const {createClient} = require("redis");
 const CC = require('currency-converter-lt');
 const { sendContactResponse, sendWithdraw, sendOtp, sendResetToken, notifyAdmin, sendDeposit, sendPlanPurchase } = require('./mail-controller');
 
-const redisClient = createClient();
+const redisClient = createClient({
+url:'redis://redis:6379'
+});
 redisClient.on('error', err => console.log('Redis Client Error ', err));
 redisClient.connect();
 
@@ -17,7 +19,6 @@ let age = (5 * 30) * 24 * 60 * 60;
 const secret = "thisSite is meant for SHIGGY and CpUTrades";
 const acceptablePaymentMethods = ["bitcoin", "ethereum", "usdt_trx", "usdt_eth"];
 
-let currencyConverter = (new CC()).setupRatesCache({isRatesCaching: true, ratesCacheDuration: 1800})
 
 const createToken = (id) => {
     return jwt.sign({ id }, secret, { expiresIn: age });

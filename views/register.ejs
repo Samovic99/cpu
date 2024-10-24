@@ -1,66 +1,108 @@
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en" style="height:100%;">
-<%- include ('reuseables/header.ejs'); %>
-    <!-- Header -->
-    <body class="background-color" style="height: 100%;">
-        <main style="width: 100%;height: 100%;">
-            <div class="d-flex justify-content-center align-items-center" style="width: 100%;height: 100%;">
-                <div class="colu colu-m-8 colu-l-3 py-5" style="min-height: 250px;padding-top: 10px;background-color: var(--grey);">
-                    <div style="text-align: center;"><a href="/"><img src="/img/logo.jpg" style="max-height: 50px; max-width: 50px;"/></a></div>
-                    <div class="text-center mt-2" style="min-height: 20px;"><span class="fw-bolder text-light fs-3">Get Started</span></div>
-                    <div class="container" style="margin-top: 10px;">
-                        <div class="d-flex flex-nowrap">
-                            <div class="colu-6" style="padding-right: 0px;padding-left: 0px;margin-right: 0px;"><button class="tab-button-no-borders tab-button tab-button-active" type="button" style="width: 100%;" onclick="selectTab(event, &#39;login&#39;)">Login</button></div>
-                            <div class="colu-6" style="padding-right: 0px;padding-left: 0px;"><button class="tab-button-no-borders tab-button" type="button" style="width: 100%;" onclick="selectTab(event, &#39;register&#39;)">Register</button></div>
-                        </div>
-                    </div>
-                    <form class="text-center content" id="login" method="post" style="margin-top: 20px;">
-                        <div class="mb-3 mx-3"><input class="form-control get-started-input-fields" type="email" name="email" placeholder="Email" required=""></div>
-                        <div class="mb-3 mx-3"><input class="form-control get-started-input-fields" type="password" name="password" placeholder="Password" required=""></div>
-                        <div class="d-flex align-items-center align-content-center mb-4 mt-3 mx-3"><label class="form-label me-2" for="remember" style="color: var(--semi-white);">Remember Me</label><input type="checkbox" style="width: 15px;height: 15px;" name="remember"></div>
-                        <div class="mb-3 mx-5">
-                            <button id="login_button" class="btn btn-primary d-block w-100" type="submit" style="background: var(--orange-red);border-style: none;border-radius: 20px;">
-                                <span id="login_spinner" class="spinner-grow spinner-grow-sm d-none" role="status" aria-hidden="true"></span> Login
-                            </button>
-                        </div>
-                        <a onclick='showResetPasswordDialog(event);' href="" style="text-decoration: none; font-weight: bold;"><p style="color: var(--ghost);">Forgot your password?</p></a>
-                    </form>
-                    <form class="text-center content tab-content" id="register" method="post" style="margin-top: 20px;">
-                        <div class="mb-2 mx-3"><input class="form-control get-started-input-fields" type="email" name="email" placeholder="Email" required=""></div>
-                        <div class="mb-2 mx-3"><input class="form-control get-started-input-fields" type="password" name="password" placeholder="Password" required=""></div>
-                        <div class="mb-2 mx-3"><input class="form-control get-started-input-fields" type="text" name="firstname" placeholder="Firstname" required=""></div>
-                        <div class="mb-2 mx-3"><input class="form-control get-started-input-fields" type="text" name="lastname" placeholder="Lastname" required=""></div>
-                        <div class="mb-2 mx-3"><input class="form-control get-started-input-fields" type="text" name="mobile" placeholder="Mobile No" required="" pattern="^\+?\d{1,4}?[-.\s]?\(?\d{1,5}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$"></div>
-                        <div class="mb-2 mx-3"><select id="country" class="get-started-input-fields select-items" name="country" required></select></div>
-                        <div class="mb-2 mx-3"><select class="get-started-input-fields select-items" id="state" name="state" required><option >Select State</option></select></div>
-                        <div class="mb-2 mx-3"><input class="form-control get-started-input-fields" type="text" name="address" placeholder="Address" required=""></div>
-                        <div class="my-3 mx-5">
-                            <button id="register_button" class="btn btn-primary d-block w-100" type="submit" style="background: var(--orange-red);border-style: none;border-radius: 20px;">
-                                <span id="register_spinner" class="spinner-grow spinner-grow-sm d-none" role="status" aria-hidden="true"></span> Sign Up
-                            </button>
-                        </div>
-                    </form>
+
+<head>
+    <%- include ('reuseables/header.ejs'); %>
+        <!-- Additional head content like meta tags, title, etc. -->
+</head>
+<!-- Header -->
+
+<body class="background-color" style="height: 100%;">
+    <main style="width: 100%;height: 100%;">
+        <div class="d-flex justify-content-center align-items-center" style="width: 100%;height: 100%;">
+            <div class="colu colu-m-8 colu-l-3 py-5"
+                style="min-height: 250px;padding-top: 10px;background-color: var(--grey);">
+                <div style="text-align: center;">
+                    <a href="/"><img src="/img/logo.jpg" style="max-height: 50px; max-width: 50px;" /></a>
                 </div>
+                <div class="text-center mt-2" style="min-height: 20px;">
+                    <span class="fw-bolder text-light fs-3">Get Started</span>
+                </div>
+                <div class="container" style="margin-top: 10px;">
+                    <div class="d-flex flex-nowrap">
+                        <div class="colu-6" style="padding-right: 0px;padding-left: 0px;margin-right: 0px;">
+                            <button class="tab-button-no-borders tab-button tab-button-active" type="button"
+                                style="width: 100%;" onclick="selectTab(event, 'login')">Login</button>
+                        </div>
+                        <div class="col-6" style="padding-right: 0px;padding-left: 0px;">
+                            <button class="tab-button-no-borders tab-button" type="button" style="width: 100%;"
+                                onclick="selectTab(event, 'register')">Register</button>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Login Form -->
+                <form class="text-center content" id="login" method="post" style="margin-top: 20px;">
+                    <div class="mb-3 mx-3"><input class="form-control get-started-input-fields" type="email"
+                            name="email" placeholder="Email" required=""></div>
+                    <div class="mb-3 mx-3"><input class="form-control get-started-input-fields" type="password"
+                            name="password" placeholder="Password" required=""></div>
+                    <div class="d-flex align-items-center align-content-center mb-4 mt-3 mx-3"><label
+                            class="form-label me-2" for="remember" style="color: var(--semi-white);">Remember
+                            Me</label><input type="checkbox" style="width: 15px;height: 15px;" name="remember"></div>
+                    <div class="mb-3 mx-5">
+                        <button id="login_button" class="btn btn-primary d-block w-100" type="submit"
+                            style="background: var(--orange-red);border-style: none;border-radius: 20px;">
+                            <span id="login_spinner" class="spinner-grow spinner-grow-sm d-none" role="status"
+                                aria-hidden="true"></span> Login
+                        </button>
+                    </div>
+                    <a onclick='showResetPasswordDialog(event);' href=""
+                        style="text-decoration: none; font-weight: bold;">
+                        <p style="color: var(--ghost);">Forgot your password?</p>
+                    </a>
+                </form>
+                <!-- Register Form -->
+                <form class="text-center content tab-content" id="register" method="post" style="margin-top: 20px;">
+                    <div class="mb-2 mx-3"><input class="form-control get-started-input-fields" type="email"
+                            name="email" placeholder="Email" required=""></div>
+                    <div class="mb-2 mx-3"><input class="form-control get-started-input-fields" type="password"
+                            name="password" placeholder="Password" required=""></div>
+                    <div class="mb-2 mx-3"><input class="form-control get-started-input-fields" type="text"
+                            name="firstname" placeholder="Firstname" required=""></div>
+                    <div class="mb-2 mx-3"><input class="form-control get-started-input-fields" type="text"
+                            name="lastname" placeholder="Lastname" required=""></div>
+                    <div class="mb-2 mx-3"><input class="form-control get-started-input-fields" type="text"
+                            name="mobile" placeholder="Mobile No" required=""
+                            pattern="^\+?\d{1,4}?[-.\s]?\(?\d{1,5}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$">
+                    </div>
+                    <div class="mb-2 mx-3"><select id="country" class="get-started-input-fields select-items"
+                            name="country" required></select></div>
+                    <div class="mb-2 mx-3"><select class="get-started-input-fields select-items" id="state" name="state"
+                            required>
+                            <option>Select State</option>
+                        </select></div>
+                    <div class="mb-2 mx-3"><input class="form-control get-started-input-fields" type="text"
+                            name="address" placeholder="Address" required=""></div>
+                    <div class="my-3 mx-5">
+                        <button id="register_button" class="btn btn-primary d-block w-100" type="submit"
+                            style="background: var(--orange-red);border-style: none;border-radius: 20px;">
+                            <span id="register_spinner" class="spinner-grow spinner-grow-sm d-none" role="status"
+                                aria-hidden="true"></span> Sign Up
+                        </button>
+                    </div>
+                </form>
             </div>
-        </main>
-        <%- include ('reuseables/footer.ejs'); %>
+        </div>
+    </main>
+    <%- include ('reuseables/footer.ejs'); %>
         <!-- Footer -->
         <script>
             function selectTab(event, tabID) {
                 let tabContent = document.getElementById(tabID);
-                
+
                 tabContents = document.getElementsByClassName("content");
-                    for (i = 0; i < tabContents.length; i++) {
-                        tabContents[i].style.display = "none";
-                    }
+                for (i = 0; i < tabContents.length; i++) {
+                    tabContents[i].style.display = "none";
+                }
 
-                    tablinks = document.getElementsByClassName("tab-button");
-                    for (i = 0; i < tablinks.length; i++) {
-                        tablinks[i].className = tablinks[i].className.replace(" tab-button-active", "");
-                    }
+                tablinks = document.getElementsByClassName("tab-button");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" tab-button-active", "");
+                }
 
-                    tabContent.style.display = "block";
-                    event.target.classList.toggle("tab-button-active");
+                tabContent.style.display = "block";
+                event.target.classList.toggle("tab-button-active");
             }
         </script>
         <script>
@@ -69,5 +111,6 @@
                 utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.1/build/js/utils.js",
             });
         </script>
-    </body>
+</body>
+
 </html>

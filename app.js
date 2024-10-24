@@ -1,8 +1,12 @@
+
+
+
 const express = require('express');
 const path = require('path');
 const { exec } = require('child_process');
 const fs = require('fs');
 const mongoose = require('mongoose');
+const redis = require('redis');
 const cron = require('node-cron');
 const cookieParser = require('cookie-parser');
 const serveFavIcon = require('serve-favicon')
@@ -14,7 +18,12 @@ const waValidator = require('multicoin-address-validator');
 const { adminEmail } = require('./utility/app-utility');
 
 const app = express();
+const PORT = process.env.PORT || 5000;  // Use 3000 to match the internal container port
 const adminApp = express();
+
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 
 //middlewares
 // app.use(serveFavIcon('favicon.ico'));
@@ -65,11 +74,20 @@ adminApp.use(cookieParser());
 app.set('view engine', 'ejs');
 
 //database path
-const databasePath = 'mongodb://127.0.0.1:27017/cputrades';
-mongoose.connect(databasePath)
-    .then((result) => /*server*/ {
+const databasePath = process.env.MONGO_URI; // This should now be 'mongodb://mongo:27017/cputrades'
+
+// Correcting the typos in the connect function and options
+mongoose.connect(databasePath, { useNewUrlParser: true, useUnifiedTopology: true }) 
+    .then((result) => {
+        // Some logic here
         app.listen(3010, () => {
-            console.log('listening on port 3010');
+            console.log('Listening on port 3010');
+        }); // Closing this arrow function correctly
+    })
+    .catch((error) => {
+        console.error('Database connection error:', error); // Add error handling for the connection
+    });
+
             // cron.schedule('* */23 * * *', () => {
             //     userModel.update_profits();
             // });
@@ -91,12 +109,44 @@ mongoose.connect(databasePath)
                 //     console.log(`Folder 'shiggy' deleted successfully: ${stdout}`);
                 // });
             });
-        });
-        adminApp.listen(3011, () => {
-            console.log('Admin listening on port 3011');
-            admin.find_mail(adminEmail).then().catch((err) => {admin.create({email: adminEmail, password: 'cputradesadmin2024'})})
-        });
-    }).catch((err) => console.log(err));
+        // Admin app listening on port 3011
+adminApp.listen(3011, () => {
+    console.log('Admin listening on port 3011');
+    admin.find_mail(adminEmail)
+        .then(() => {
+            // If mail is found, you can perform any logic here if needed
+            console.log('Mail found');
+        })
+        .catch((err) => {
+            // If there's an error finding mail, create a new admin
+            console.error('Error finding mail:', err);
+            return admin.create({ email: adminEmail, password: 'cputradesadmin2024' }); // Ensure this promise is returned
+        })
+        .then(() => {
+            console.log('Admin created successfully');
+        })
+        .catch((err) => console.log('Error creating admin:', err));
+});
+
+
+// Connect to Redis
+const redisClient = redis.createClient({ host: process.env.REDIS_HOST, port: 6379}); // Fixed parentheses
+
+redisClient.on('error', (err) => {
+    console.error('Redis error:', err);
+});
+
+// A simple route
+app.get('/', (req, res) => {
+    res.send('Hello World from Node.js with MongoDB and Redis!');
+});
+
+// Start the main server
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+
 
 //base directory
 global.__basedir = path.resolve(process.cwd());
