@@ -1,3 +1,4 @@
 # cputrades
 # cputrades
 # cputrades
+# cpu
